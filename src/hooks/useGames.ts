@@ -1,3 +1,4 @@
+import { GameQuery } from "./../App";
 import useData from "hooks/useData";
 import { Genre } from "hooks/useGenres";
 import { Platform } from "hooks/usePlatforms";
@@ -11,18 +12,15 @@ export interface Game {
   genres: Genre[];
 }
 
-const useGames = (
-  selectedGenre: Genre | null,
-  selectedPlatform: Platform | null
-) =>
+const useGames = (gameQuery: GameQuery) =>
   useData<Game>(
     "/games",
     {
       params: {
-        genres: selectedGenre?.id,
-        parent_platforms: selectedPlatform?.id,
+        genres: gameQuery.genre?.id,
+        parent_platforms: gameQuery.platform?.id,
       },
     },
-    [selectedGenre?.id, selectedPlatform?.id]
+    [gameQuery]
   );
 export default useGames;
